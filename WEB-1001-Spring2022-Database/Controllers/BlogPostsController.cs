@@ -22,7 +22,9 @@ namespace WEB_1001_Spring2022_Database.Controllers
         // GET: BlogPosts
         public async Task<IActionResult> Index()
         {
-            return View(await _context.BlogPosts.ToListAsync());
+            var query = _context.BlogPosts.Where(bp => !String.IsNullOrEmpty(bp.Content) && bp.PublishDate < DateTime.Now.AddDays(-30)).GroupBy(bp=>bp.Blog);
+            var list = query;
+            return View(list);
         }
 
         // GET: BlogPosts/Details/5
